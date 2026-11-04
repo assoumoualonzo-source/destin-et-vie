@@ -1,6 +1,8 @@
 name: Commandes Destin & Vie
 # Relève des commandes du site
 on:
+  push:
+    paths: [".github/workflows/commandes.yml"]
   schedule:
     - cron: "*/10 * * * *"   # toutes les 10 minutes
   workflow_dispatch: {}       # bouton « Run workflow » pour lancer à la main
