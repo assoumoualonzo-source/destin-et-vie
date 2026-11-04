@@ -1,0 +1,71 @@
+"""Pistes concrètes : enfant (moins de 16 ans) et adulte.
+
+Clés : chiffre de base du chemin de vie (1 à 9 ; les nombres maîtres sont
+ramenés à leur base) et élément dominant du thème.
+"""
+
+CHILD = {
+    1: dict(activities=["jeux de construction où il faut décider seul{e}", "petites responsabilités à la maison", "sports individuels (course, judo, natation)"],
+            learning="Lui laisser choisir parmi deux options plutôt qu'imposer. Valoriser ses initiatives, même maladroites.",
+            orientations="entrepreneuriat, direction de projets, métiers d'innovation"),
+    2: dict(activities=["jeux à deux et jeux coopératifs", "musique en groupe, chorale", "soin des plantes ou d'un animal"],
+            learning="Un cadre calme et bienveillant. L'encourager à donner son avis et à oser dire non.",
+            orientations="soin, médiation, ressources humaines, métiers d'équipe"),
+    3: dict(activities=["contes, théâtre, chant", "dessin, peinture, bricolage créatif", "jeux de groupe où il faut parler et inventer"],
+            learning="Des projets courts, toujours terminés, puis présentés à la famille. Beaucoup d'oral, peu de répétition mécanique.",
+            orientations="communication, langues, arts, enseignement, commerce"),
+    4: dict(activities=["puzzles, Lego, Kapla", "jardinage, cuisine en suivant une recette", "collections à classer"],
+            learning="Des routines claires et des étapes visibles. Le préparer à l'avance aux changements.",
+            orientations="ingénierie, architecture, finance, artisanat, métiers techniques"),
+    5: dict(activities=["vélo, trottinette, sports variés", "sorties, découvertes, petits voyages", "expériences scientifiques simples"],
+            learning="Varier les activités et bouger entre deux temps calmes. L'aider à finir avant de passer à autre chose.",
+            orientations="commerce, tourisme, journalisme, métiers de terrain et de mouvement"),
+    6: dict(activities=["jeux de rôle (marchande, docteur, cuisine)", "aider à la maison, s'occuper d'un plus petit", "musique, chant en famille"],
+            learning="Un climat affectif stable. Le féliciter pour son aide, sans lui faire porter des responsabilités d'adulte.",
+            orientations="santé, éducation, social, décoration, métiers du soin"),
+    7: dict(activities=["lecture, documentaires, encyclopédies", "observation de la nature, loupe, jumelles", "jeux de logique et d'énigmes"],
+            learning="Du temps seul{e} pour réfléchir. Répondre vraiment à ses questions, même difficiles.",
+            orientations="sciences, recherche, informatique, médecine, philosophie"),
+    8: dict(activities=["jeux de stratégie (dames, échecs, Monopoly)", "petite tirelire, gérer un budget de poche", "sports de compétition encadrés"],
+            learning="Des objectifs clairs et des récompenses méritées. Lui apprendre à perdre comme à gagner.",
+            orientations="gestion, droit, finance, direction d'entreprise"),
+    9: dict(activities=["histoires du monde, cartes, drapeaux", "actions d'entraide (dons, aide à l'école)", "arts et musique de différentes cultures"],
+            learning="Donner du sens à ce qu'il apprend. Le laisser exprimer ses indignations et l'aider à agir.",
+            orientations="humanitaire, relations internationales, arts, enseignement"),
+}
+CHILD_ELEMENT = {
+    "Feu": "Pour son énergie : du sport, des jeux de mouvement et des défis à relever.",
+    "Terre": "Pour son sens du concret : des activités manuelles et minutieuses, où le résultat se voit.",
+    "Air": "Pour sa curiosité : des échanges, des questions, des jeux de mots et de logique.",
+    "Eau": "Pour sa sensibilité : des moments calmes, de la musique, des histoires et beaucoup de tendresse.",
+}
+
+ADULT = {
+    1: dict(strengths="leadership, décision, capacité à lancer des projets",
+            careers="entrepreneuriat, management, conseil, métiers d'innovation",
+            advice="Déléguer davantage et s'entourer de personnes complémentaires."),
+    2: dict(strengths="écoute, diplomatie, travail en binôme",
+            careers="médiation, ressources humaines, soin, assistance de direction",
+            advice="Oser défendre ses idées et ses intérêts, même au prix d'un désaccord."),
+    3: dict(strengths="communication, créativité, aisance relationnelle",
+            careers="communication, vente, enseignement, métiers artistiques",
+            advice="Choisir moins de projets et les mener jusqu'au bout."),
+    4: dict(strengths="organisation, fiabilité, persévérance",
+            careers="gestion, ingénierie, finance, administration, artisanat",
+            advice="Laisser une place à l'imprévu et à la nouveauté."),
+    5: dict(strengths="adaptabilité, curiosité, aisance avec le changement",
+            careers="commerce, tourisme, journalisme, événementiel, métiers de terrain",
+            advice="S'engager sur la durée dans un ou deux projets qui comptent vraiment."),
+    6: dict(strengths="sens des responsabilités, attention aux autres, esthétique",
+            careers="santé, éducation, social, décoration, accompagnement",
+            advice="Prendre soin de soi autant que des autres."),
+    7: dict(strengths="analyse, expertise, intuition",
+            careers="recherche, informatique, audit, médecine, écriture",
+            advice="Partager davantage ce que l'on sait et accepter l'aide."),
+    8: dict(strengths="sens des affaires, autorité, capacité de décision",
+            careers="direction, finance, droit, immobilier, entrepreneuriat",
+            advice="Équilibrer réussite matérielle, vie familiale et générosité."),
+    9: dict(strengths="générosité, vision large, sens du collectif",
+            careers="humanitaire, enseignement, arts, relations internationales",
+            advice="Savoir dire non et clore les étapes pour avancer."),
+}

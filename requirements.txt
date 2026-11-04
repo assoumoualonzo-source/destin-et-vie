@@ -1,0 +1,7 @@
+ephem
+reportlab
+pypdf
+piper-tts
+numpy
+pillow
+cairosvg

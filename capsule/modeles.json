@@ -1,0 +1,97 @@
+{
+  "_lisez_moi": "Capsules Destin & Vie : uniquement le résumé de l'étude du client (30 s max), puis la signature de la marque. Chaque scène : titre, nom (true = prénom + nom), chiffre, ecran (sous-titre), voix (nombres en lettres via les variables *_mots). Variables : capsule.py, fonction variables().",
+
+  "chemin_de_vie": [
+    {"titre": "Votre chemin de vie", "nom": true,
+     "ecran": "{prenom}, votre chemin de vie porte le {chemin} : {chemin_titre_min}.",
+     "voix": "{prenom}, votre chemin de vie porte le nombre {chemin_mots} : {chemin_titre_min}."},
+    {"titre": "{chemin_titre}", "chiffre": "{chemin}",
+     "ecran": "{phrase} Au fond de vous, {ame}.",
+     "voix": "{phrase} Au fond de vous, {ame}."},
+    {"titre": "Vos forces",
+     "ecran": "{forces}.", "voix": "Vos forces : {forces}."},
+    {"titre": "Votre défi",
+     "ecran": "{defi}.", "voix": "Votre défi principal : {defi}."},
+    {"titre": "En 2027", "chiffre": "{annee}",
+     "ecran": "Année personnelle {annee} : {annee_cles}.",
+     "voix": "En deux mille vingt-sept, année personnelle {annee_mots} : {annee_cles}."},
+    {"fin": true}
+  ],
+
+  "chemin_de_vie_enfant": [
+    {"titre": "Son chemin de vie", "nom": true,
+     "ecran": "Le chemin de vie de {prenom} porte le {chemin} : {chemin_titre_min}.",
+     "voix": "Le chemin de vie de {prenom} porte le nombre {chemin_mots} : {chemin_titre_min}."},
+    {"titre": "{chemin_titre}", "chiffre": "{chemin}",
+     "ecran": "{phrase}", "voix": "{phrase}"},
+    {"titre": "Ses forces",
+     "ecran": "{forces}.", "voix": "Ses forces : {forces}."},
+    {"titre": "À accompagner",
+     "ecran": "{defi}.", "voix": "À accompagner : {defi}."},
+    {"titre": "En 2027", "chiffre": "{annee}",
+     "ecran": "Année personnelle {annee} : {annee_cles}.",
+     "voix": "En deux mille vingt-sept, année personnelle {annee_mots} : {annee_cles}."},
+    {"fin": true}
+  ],
+
+  "prevision_2027": [
+    {"titre": "Votre année 2027", "nom": true,
+     "ecran": "{prenom}, 2027 est pour vous {annee_titre_min}.",
+     "voix": "{prenom}, deux mille vingt-sept est pour vous {annee_titre_min}."},
+    {"titre": "{annee_titre}", "chiffre": "{annee}",
+     "ecran": "Année personnelle {annee} : {annee_cles}.",
+     "voix": "Année personnelle {annee_mots} : {annee_cles}."},
+    {"titre": "Ce que l'année favorise",
+     "ecran": "{favorise}.", "voix": "L'année favorise {favorise}."},
+    {"titre": "Vos temps forts",
+     "ecran": "Mois le plus porteur : {mois_fort}. Plus doucement en {mois_doux}.",
+     "voix": "Votre mois le plus porteur : {mois_fort}. À vivre plus doucement : {mois_doux}."},
+    {"fin": true}
+  ],
+
+  "prevision_2027_enfant": [
+    {"titre": "Son année 2027", "nom": true,
+     "ecran": "Pour {prenom}, 2027 est {annee_titre_min}.",
+     "voix": "Pour {prenom}, deux mille vingt-sept est {annee_titre_min}."},
+    {"titre": "{annee_titre}", "chiffre": "{annee}",
+     "ecran": "Année personnelle {annee} : {annee_cles}.",
+     "voix": "Année personnelle {annee_mots} : {annee_cles}."},
+    {"titre": "Ses temps forts",
+     "ecran": "Mois le plus dynamique : {mois_fort}. Plus de calme en {mois_doux}.",
+     "voix": "Son mois le plus dynamique : {mois_fort}. Plus de calme en {mois_doux}."},
+    {"fin": true}
+  ],
+
+  "essentiel": [
+    {"titre": "Votre chemin de vie", "nom": true,
+     "ecran": "{prenom}, votre chemin de vie porte le {chemin} : {chemin_titre_min}.",
+     "voix": "{prenom}, votre chemin de vie porte le nombre {chemin_mots} : {chemin_titre_min}."},
+    {"titre": "{chemin_titre}", "chiffre": "{chemin}",
+     "ecran": "{phrase} Vos forces : {forces}.",
+     "voix": "{phrase} Vos forces : {forces}."},
+    {"titre": "Votre défi",
+     "ecran": "{defi}.", "voix": "Votre défi principal : {defi}."},
+    {"titre": "{annee_titre}", "chiffre": "{annee}",
+     "ecran": "En 2027 : année personnelle {annee}, {annee_cles}.",
+     "voix": "En deux mille vingt-sept : année personnelle {annee_mots}, {annee_cles}."},
+    {"titre": "Vos temps forts",
+     "ecran": "Mois le plus porteur : {mois_fort}. Plus doucement en {mois_doux}.",
+     "voix": "Votre mois le plus porteur : {mois_fort}. À vivre plus doucement : {mois_doux}."},
+    {"fin": true}
+  ],
+
+  "compatibilite": [
+    {"titre": "Compatibilité amoureuse", "nom": true,
+     "ecran": "Le nombre de votre couple est le {couple} : {couple_titre_min}.",
+     "voix": "{prenom} et {prenom2}, le nombre de votre couple est le {couple_mots} : {couple_titre_min}."},
+    {"titre": "{couple_titre}", "chiffre": "{couple}",
+     "ecran": "{couple_phrase}", "voix": "{couple_phrase}"},
+    {"titre": "Votre force",
+     "ecran": "{force}.", "voix": "Votre plus grande force : {force}."},
+    {"titre": "À travailler",
+     "ecran": "{friction}.", "voix": "À travailler ensemble : {friction}."},
+    {"titre": "Notre conseil",
+     "ecran": "{conseil}.", "voix": "Notre conseil : {conseil}."},
+    {"fin": true}
+  ]
+}
