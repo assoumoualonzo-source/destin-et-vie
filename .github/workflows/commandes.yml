@@ -1,0 +1,46 @@
+name: Commandes Destin & Vie
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # toutes les 10 minutes
+  workflow_dispatch: {}       # bouton « Run workflow » pour lancer à la main
+
+permissions:
+  contents: write
+
+concurrency:
+  group: commandes
+  cancel-in-progress: false
+
+jobs:
+  traiter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Polices et ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation ffmpeg libcairo2
+      - name: Voix française (cache)
+        uses: actions/cache@v4
+        with:
+          path: capsule/voix
+          key: voix-fr-siwis-medium
+      - run: pip install -r requirements.txt
+      - name: Traiter les nouvelles commandes
+        env:
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE: destin-et-vie.online
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DEST_EMAIL: ${{ secrets.DEST_EMAIL }}
+        run: python traiter_commandes.py
+      - name: Mémoriser les commandes traitées
+        run: |
+          git config user.name "destin-et-vie-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add etat/traitees.json
+          git diff --cached --quiet || (git commit -m "Commandes traitées" && git push)
