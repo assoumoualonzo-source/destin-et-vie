@@ -6,14 +6,15 @@ reading.build() et les gabarits de pdf_style :
 - prevision_2027 : une Person -> année personnelle 2027 et mois personnels + transits majeurs
 - famille : jusqu'à 6 Person -> une lecture chacun + liens (nombres partagés, éléments, rôles)
 """
-from . import chemin_de_vie, compatibilite, essentiel, prevision_2027
+from . import chemin_de_vie, compatibilite, essentiel, famille, prevision_2027
 
 PRODUCTS = {
     "prevision_2027": prevision_2027.render,   # pack Prévision 2027
     "chemin_de_vie": chemin_de_vie.render,     # pack Découverte
     "essentiel": essentiel.render,             # pack Essentiel (les deux + bonus)
     "compatibilite": compatibilite.render,     # pack Compatibilité amoureuse (2 personnes)
+    "famille": famille.render,                 # pack Famille (2 à 16 personnes, avec leur lien)
 }
 
 # Nombre de personnes attendu par produit (1 par défaut).
-MULTI = {"compatibilite": 2}
+MULTI = {"compatibilite": 2, "famille": (2, 16)}
