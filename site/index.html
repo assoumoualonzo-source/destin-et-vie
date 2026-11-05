@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Destin & Vie : votre chemin de vie, votre année 2027 et votre compatibilité, calculés à partir de votre date de naissance. Aperçu gratuit.">
+<style>*{box-sizing:border-box}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>Destin &amp; Vie</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Commissioner:wght@300;400;500;600&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* Layout : une nuit d'encre et de laiton — ciel en ouverture, calcul en direct, puis offres et commande en colonnes sobres */
+:root{
+  --ink:#1B2440; --ink-2:#2A3558; --paper:#F6F4EF; --surface:#FFFFFF; --line:#DCD6C8;
+  --brass:#A57A2A; --brass-soft:#E9DCC0; --muted:#5D6275; --ok:#2F6B4F;
+  --fg:var(--ink); --bg:var(--paper);
+  --f-display:"Marcellus","Cinzel","Times New Roman",serif;
+  --f-body:"Commissioner","Segoe UI",system-ui,sans-serif;
+  --f-read:"Spectral",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11172A; --surface:#182039; --line:#2E3858; --fg:#ECE8DD; --muted:#A3A9BC;
+  --brass:#D2A75A; --brass-soft:#3A3322; --ink-2:#222C4A; --ok:#7CC4A0; --bg:var(--paper); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11172A; --surface:#182039; --line:#2E3858; --fg:#ECE8DD; --muted:#A3A9BC;
+  --brass:#D2A75A; --brass-soft:#3A3322; --ink-2:#222C4A; --ok:#7CC4A0; --bg:var(--paper); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+h2{font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.15}
+h3{font-size:1.25rem}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);font-weight:600}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* ---- Hero (toujours sombre : c'est le ciel) ---- */
+.hero{position:relative;background:#0E1426 url("https://images.unsplash.com/photo-1476504825079-f50520ac761d?w=1800&q=75&fm=jpg&fit=crop") center 30%/cover no-repeat;color:#F2EEE4;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,20,38,.55),rgba(14,20,38,.88) 70%,rgba(14,20,38,.97));z-index:-1}
+.top{display:flex;justify-content:space-between;align-items:center;padding-block:20px;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-size:1.35rem;letter-spacing:.06em;display:flex;align-items:center;gap:10px}
+.brand svg{width:28px;height:28px}
+.top nav{display:flex;gap:22px;font-size:.9rem;flex-wrap:wrap}
+.top nav a{text-decoration:none;color:#D9D3C2}
+.top nav a:hover{color:#fff}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;padding-block:40px 72px;align-items:start}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.7rem);line-height:1.06;margin-top:14px}
+.hero .lede{font-family:var(--f-read);font-size:1.15rem;color:#D6D1C3;max-width:34ch;margin-top:18px}
+.hero .eyebrow{color:#D7B46E}
+.credit{font-size:.72rem;color:#8F94A6;margin-top:28px}
+.credit a{color:#B5B9C7}
+
+/* Carte de calcul */
+.calc{background:rgba(246,244,239,.97);color:#1B2440;border-radius:6px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.calc h3{color:#1B2440}
+.calc .sub{font-size:.88rem;color:#5D6275;margin-top:4px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.fields .full{grid-column:1/-1}
+label{display:block;font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:5px;color:#3A4262}
+input,select{width:100%;font:inherit;font-size:.98rem;padding:10px 12px;border:1px solid #CFC8B6;border-radius:4px;background:#fff;color:#1B2440}
+input:focus,select:focus{border-color:#A57A2A;outline:none;box-shadow:0 0 0 3px rgba(165,122,42,.18)}
+.hint{font-size:.74rem;color:#6F7385;margin-top:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:600;font-size:.95rem;padding:12px 20px;border-radius:4px;border:1px solid transparent;cursor:pointer;text-decoration:none}
+.btn-brass{background:#A57A2A;color:#fff}
+.btn-brass:hover{background:#8E6820}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--brass)}
+.calc .btn{width:100%;margin-top:18px}
+
+/* ---- Aperçu ---- */
+section{padding-block:72px}
+.preview{display:grid;grid-template-columns:300px 1fr;gap:44px;align-items:start}
+.wheel{position:relative;width:100%;max-width:300px;aspect-ratio:1}
+.wheel canvas{width:100%;height:100%}
+.wheel .num{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none}
+.wheel .num b{font-family:var(--f-display);font-weight:400;font-size:4.6rem;line-height:1;color:var(--brass);display:block}
+.wheel .num span{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.res-head{display:flex;flex-direction:column;gap:6px}
+.res-name{font-family:var(--f-read);font-style:italic;color:var(--muted)}
+.res-text{font-family:var(--f-read);font-size:1.12rem;max-width:62ch;margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:.82rem;padding:5px 11px;border-radius:999px;background:var(--brass-soft);color:var(--fg)}
+.locked{margin-top:26px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.locked div{background:var(--surface);padding:14px 16px;min-width:0}
+.locked dt{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.locked dd{margin:4px 0 0;font-family:var(--f-display);font-size:1.5rem;color:var(--fg)}
+.locked dd.hide{color:transparent;text-shadow:0 0 10px var(--muted);user-select:none}
+.unlock{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.unlock p{font-size:.9rem;color:var(--muted)}
+.empty{font-family:var(--f-read);color:var(--muted);font-size:1.05rem;max-width:52ch;margin-top:10px}
+
+/* ---- Contenu de l'étude ---- */
+.alt{background:var(--surface);border-block:1px solid var(--line)}
+.contents{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.contents .intro p{font-family:var(--f-read);font-size:1.08rem;color:var(--muted);margin-top:14px;max-width:44ch}
+.toc{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.toc li{display:grid;grid-template-columns:2.4rem 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.toc .pg{font-family:var(--f-display);color:var(--brass);font-size:1.1rem;font-variant-numeric:tabular-nums}
+.toc b{font-weight:600;display:block}
+.toc span{font-size:.92rem;color:var(--muted)}
+
+/* ---- Tarifs ---- */
+/* 5 packs : les trois paliers d'entrée sur une ligne, les deux packs à plusieurs sur la suivante */
+.offers{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;margin-top:34px}
+.offers .offer{grid-column:span 2}
+.offers .offer:nth-child(n+4){grid-column:span 3}
+.fee{font-size:.76rem;color:var(--muted);margin-top:6px}
+@media (max-width:1060px){.offers{grid-template-columns:repeat(2,minmax(0,1fr))}.offers .offer,.offers .offer:nth-child(n+4){grid-column:span 1}.offers .offer:first-child{grid-column:1/-1}}
+.offer{border:1px solid var(--line);border-radius:6px;padding:24px;display:flex;flex-direction:column;gap:14px;background:var(--bg);min-width:0}
+.offer.feat{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass)}
+.offer .tag{align-self:flex-start;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;background:var(--brass);color:#fff;padding:3px 9px;border-radius:3px}
+.price{font-family:var(--f-display);font-size:2.1rem;font-variant-numeric:tabular-nums;line-height:1}
+.price small{font-family:var(--f-body);font-size:.85rem;color:var(--muted);margin-left:4px}
+.offer ul{margin:0;padding-left:1.1rem;font-size:.93rem;display:grid;gap:6px;flex:1}
+.offer .btn{margin-top:4px}
+.offer[aria-pressed="true"] .btn{background:var(--brass);color:#fff;border-color:var(--brass)}
+
+/* ---- Commande ---- */
+.order{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:30px;align-items:start}
+.panel{border:1px solid var(--line);border-radius:6px;padding:24px;background:var(--surface);min-width:0}
+.summary dl{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:16px 0 0;font-size:.93rem}
+.summary dt{color:var(--muted)}
+.summary dd{margin:0;overflow-wrap:anywhere}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);margin-top:18px;padding-top:14px}
+.total b{font-family:var(--f-display);font-size:1.7rem;font-weight:400;font-variant-numeric:tabular-nums}
+.pay{display:grid;gap:10px;margin-top:16px}
+.payopt{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:4px;padding:12px 14px;cursor:pointer;background:var(--bg)}
+.payopt input{width:auto;accent-color:var(--brass)}
+.payopt:has(input:checked){border-color:var(--brass)}
+.steps{margin:18px 0 0;padding-left:1.2rem;display:grid;gap:8px;font-size:.93rem}
+.mono{font-variant-numeric:tabular-nums;font-weight:600}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.note{font-size:.82rem;color:var(--muted);margin-top:12px}
+.warn{font-size:.85rem;color:var(--fg);background:var(--brass-soft);padding:10px 12px;border-radius:4px;margin-top:14px}
+.panel label{color:var(--fg)}
+.panel input{background:var(--bg);color:var(--fg);border-color:var(--line)}
+
+/* ---- FAQ ---- */
+.faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 40px;margin-top:28px}
+.faq details{border-bottom:1px solid var(--line);padding-block:12px}
+.faq summary{cursor:pointer;font-weight:600;list-style-position:outside}
+.faq p{font-family:var(--f-read);color:var(--muted);margin-top:8px}
+.further{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.further p.lede2{font-family:var(--f-read);font-size:1.08rem;color:var(--muted);margin-top:14px;max-width:52ch}
+.further ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.further li{padding:14px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.further li b{display:block;font-weight:600}
+.further li span{color:var(--muted)}
+.btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+@media (max-width:860px){.further{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);padding-block:28px;font-size:.82rem;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:4px;font-size:.88rem}
+
+@media (max-width:860px){
+  .hero-grid,.preview,.contents,.order,.faq{grid-template-columns:1fr}
+  .wheel{margin:0 auto}
+  .offers{grid-template-columns:1fr}
+  .locked{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:480px){.fields{grid-template-columns:1fr}.top nav{gap:14px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- Saison des fêtes (affichée seulement pendant CONFIG.promo) ---- */
+:root{--fete:#8E2A2A;--fete-ink:#FFF7EA;--sapin:#2E5A43}
+.fete{background:var(--fete);color:var(--fete-ink);font-size:.88rem;text-align:center;padding:9px 16px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;position:relative;z-index:2}
+.fete svg{width:18px;height:18px;flex:none}
+.fete b{font-weight:600;letter-spacing:.02em}
+.fete a{color:var(--fete-ink);text-underline-offset:3px}
+.garland{position:absolute;left:0;right:0;top:0;height:46px;pointer-events:none;z-index:0;overflow:hidden}
+.garland svg{width:100%;height:100%}
+.snow{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.snow i{position:absolute;top:-30px;color:#F2EEE4;opacity:.55;animation:fall linear infinite}
+.snow i svg{width:100%;height:100%;display:block}
+.snow i.g{color:#D7B46E;opacity:.7}
+@keyframes fall{to{transform:translate3d(var(--dx,20px),calc(100vh + 60px),0) rotate(240deg)}}
+.hero .top,.hero .hero-grid{position:relative;z-index:1}
+.offer{position:relative}
+.offer .promo{position:absolute;top:-11px;right:16px;background:var(--fete);color:var(--fete-ink);font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:3px 9px;border-radius:3px}
+.price s{font-family:var(--f-body);font-size:.95rem;color:var(--muted);margin-right:8px;text-decoration-thickness:1px}
+.tarif-fete{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:.92rem;color:var(--fg);background:var(--brass-soft);padding:6px 12px;border-radius:999px}
+.tarif-fete svg{width:18px;height:18px;color:var(--sapin)}
+:root[data-theme="dark"] .tarif-fete svg{color:#7CC4A0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tarif-fete svg{color:#7CC4A0}}
+.total s{font-size:.95rem;color:var(--muted);margin-right:8px;font-family:var(--f-body)}
+@media (prefers-reduced-motion:reduce){.snow{display:none}}
+@media (max-width:600px){.fete{font-size:.8rem;gap:4px 8px;padding:7px 12px;line-height:1.35}.fete>svg,.fete a{display:none}}
+
+/* ---- Personnes supplémentaires (Compatibilité, Famille) ---- */
+.others{margin-top:30px}
+.others .lead{font-size:.92rem;color:var(--muted);margin-top:6px;max-width:70ch}
+.others h4{font-family:var(--f-display);font-weight:400;font-size:1.1rem;margin:22px 0 4px}
+.person{border:1px solid var(--line);border-radius:6px;padding:16px;margin-top:12px;background:var(--bg);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;position:relative}
+.person .full{grid-column:1/-1}
+.person .w2{grid-column:span 2}
+.person .tag{grid-column:1/-1;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.person .del{position:absolute;top:10px;right:10px;border:0;background:none;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1}
+.person .del:hover{color:var(--fg)}
+.others .btn{margin-top:12px}
+.others .count{font-size:.85rem;color:var(--muted);margin-left:10px}
+@media (max-width:860px){.person{grid-template-columns:1fr 1fr}.person .w2{grid-column:1/-1}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-snow" viewBox="0 0 256 256"><path fill="currentColor" d="M221.83,150.57a6,6,0,0,1-4.4,7.26l-26.62,6.54,7,26.08a6,6,0,0,1-4.24,7.35,6.4,6.4,0,0,1-1.55.2,6,6,0,0,1-5.8-4.45L178.27,164,134,138.39v51.13l22.24,22.24a6,6,0,1,1-8.48,8.48L128,200.49l-19.76,19.75a6,6,0,0,1-8.48-8.48L122,189.52V138.39L77.73,164l-7.93,29.6A6,6,0,0,1,64,198a6.4,6.4,0,0,1-1.55-.2,6,6,0,0,1-4.24-7.35l7-26.08-26.62-6.54a6,6,0,0,1,2.86-11.66l30.23,7.43L116,128,71.66,102.4l-30.23,7.43A5.88,5.88,0,0,1,40,110a6,6,0,0,1-1.43-11.83l26.62-6.54-7-26.08a6,6,0,1,1,11.59-3.1l7.93,29.6L122,117.61V66.48L99.76,44.24a6,6,0,0,1,8.48-8.48L128,55.51l19.76-19.75a6,6,0,0,1,8.48,8.48L134,66.48v51.13l44.27-25.56,7.93-29.6a6,6,0,1,1,11.59,3.1l-7,26.08,26.62,6.54A6,6,0,0,1,216,110a5.88,5.88,0,0,1-1.43-.17l-30.23-7.43L140,128l44.34,25.6,30.23-7.43A6,6,0,0,1,221.83,150.57Z"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 256 256"><path fill="currentColor" d="M216,74H174.74a46.41,46.41,0,0,0,6-4.48,27.56,27.56,0,0,0,9.22-20A30.63,30.63,0,0,0,158.5,18a27.56,27.56,0,0,0-20,9.22A57.1,57.1,0,0,0,128,45.76a57.1,57.1,0,0,0-10.48-18.53A27.56,27.56,0,0,0,97.5,18,30.63,30.63,0,0,0,66,49.51a27.56,27.56,0,0,0,9.22,20,45.74,45.74,0,0,0,6,4.48H40A14,14,0,0,0,26,88v32a14,14,0,0,0,14,14h2v66a14,14,0,0,0,14,14H200a14,14,0,0,0,14-14V134h2a14,14,0,0,0,14-14V88A14,14,0,0,0,216,74ZM135.77,63c2.25-12.12,6.29-21.75,11.69-27.85A15.68,15.68,0,0,1,158.86,30h.55A18.6,18.6,0,0,1,178,49.14a15.68,15.68,0,0,1-5.18,11.4C162.1,70,143.92,72.83,134.34,73.65,134.59,70.76,135,67.08,135.77,63ZM83.45,35.45A18.69,18.69,0,0,1,96.59,30h.55a15.68,15.68,0,0,1,11.4,5.18C118,45.9,120.83,64.08,121.65,73.66c-2.89-.25-6.57-.68-10.61-1.43C98.92,70,89.29,65.94,83.19,60.53A15.64,15.64,0,0,1,78,49.14,18.65,18.65,0,0,1,83.45,35.45ZM38,120V88a2,2,0,0,1,2-2h82v36H40A2,2,0,0,1,38,120Zm16,80V134h68v68H56A2,2,0,0,1,54,200Zm148,0a2,2,0,0,1-2,2H134V134h68Zm16-80a2,2,0,0,1-2,2H134V86h82a2,2,0,0,1,2,2Z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 256 256"><path fill="currentColor" d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"/></symbol>
+  <symbol id="i-tree" viewBox="0 0 256 256"><path fill="currentColor" d="M231.19,195.51A8,8,0,0,1,224,200H136v40a8,8,0,0,1-16,0V200H32a8,8,0,0,1-6.31-12.91l46-59.09H48a8,8,0,0,1-6.34-12.88l80-104a8,8,0,0,1,12.68,0l80,104A8,8,0,0,1,208,128H184.36l45.95,59.09A8,8,0,0,1,231.19,195.51Z"/></symbol>
+</svg>
+<!-- Icônes : Phosphor Icons (licence MIT) -->
+<div class="fete" id="fete" hidden><svg aria-hidden="true"><use href="#i-gift"/></svg><span><b>Offre des fêtes</b> : <span id="feteTxt">−20 % sur toutes les études</span></span><a href="#tarifs">Voir les tarifs</a></div>
+<header class="hero">
+  <div class="garland" id="garland" aria-hidden="true" hidden></div>
+  <div class="snow" id="snow" aria-hidden="true" hidden></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#D7B46E" stroke-width="1.2" aria-hidden="true"><circle cx="16" cy="16" r="14"/><circle cx="16" cy="16" r="10.5"/><path d="M16 2v4M16 26v4M2 16h4M26 16h4"/><circle cx="16" cy="16" r="1.6" fill="#D7B46E"/></svg>
+        Destin &amp; Vie
+      </div>
+      <nav aria-label="Navigation"><a href="#etude">L'étude</a><a href="#tarifs">Tarifs</a><a href="#commande">Commander</a><a href="#questions">Questions</a></nav>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Numérologie · Thème astral · Libreville</p>
+        <h1>Ce que votre date de naissance raconte sur vous</h1>
+        <p class="lede">Votre nom complet, votre date, votre heure et votre lieu de naissance. À partir de ces quatre données, nous rédigeons une étude personnelle, calculée avec précision et livrée en PDF.</p>
+        <p class="credit">Photo : <a href="https://unsplash.com/@nathananderson" target="_blank" rel="noopener">Nathan Anderson</a> sur Unsplash</p>
+      </div>
+
+      <form class="calc" id="calcForm" novalidate>
+        <h3>Votre aperçu gratuit</h3>
+        <p class="sub">Recopiez vos noms, votre date, votre heure et votre lieu de naissance, sans abréviation.</p>
+        <div class="fields">
+          <div class="full">
+            <label for="fPrenoms">Prénoms (tous)</label>
+            <input id="fPrenoms" autocomplete="given-name" placeholder="Ex. Jean Pierre" required>
+            <p class="hint">Tous les prénoms comptent, y compris ceux qu'on n'utilise pas.</p>
+          </div>
+          <div>
+            <label for="fNom">Nom(s) de famille</label>
+            <input id="fNom" autocomplete="family-name" placeholder="Ex. Koumba" required>
+          </div>
+          <div>
+            <label for="fSexe">Sexe</label>
+            <select id="fSexe"><option value="F">Féminin</option><option value="M">Masculin</option></select>
+          </div>
+          <div>
+            <label for="fDate">Date de naissance</label>
+            <input id="fDate" type="date" required>
+          </div>
+          <div>
+            <label for="fHeure">Heure de naissance</label>
+            <input id="fHeure" type="time">
+            <p class="hint">À la minute près si possible (ex. 15 h 30).</p>
+          </div>
+          <div>
+            <label for="fLieu">Lieu de naissance</label>
+            <input id="fLieu" placeholder="Ex. Akanda, Gabon">
+          </div>
+          <div>
+            <label for="fPour">L'étude est pour</label>
+            <select id="fPour">
+              <option>Moi-même</option><option>Mon enfant</option><option>Mon conjoint</option><option>Un proche</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-brass" type="submit">Calculer mon chemin de vie</button>
+      </form>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="apercu">
+    <div class="wrap preview">
+      <div class="wheel">
+        <canvas id="wheel" width="600" height="600" aria-hidden="true"></canvas>
+        <div class="num"><div><b id="cvNum">3</b><span>Chemin de vie</span></div></div>
+      </div>
+      <div>
+        <div class="res-head">
+          <p class="eyebrow" id="resEyebrow">Exemple d'aperçu</p>
+          <h2 id="resTitle">Chemin de vie 3 · Le communicant</h2>
+          <p class="res-name" id="resName">Profil d'exemple : Jean Pierre Koumba, né le 24 janvier 2021 à Akanda</p>
+        </div>
+        <p class="res-text" id="resText">Imagination, besoin de s'exprimer, goût du jeu et du lien avec les autres. Le 3 avance par la parole et la création ; son défi est de finir ce qu'il commence.</p>
+        <div class="chips" id="chips"><span class="chip">Soleil en Verseau</span><span class="chip">Calcul : 2+4+0+1+2+0+2+1 = 12 → 3</span></div>
+        <dl class="locked" id="locked">
+          <div><dt>Expression</dt><dd class="hide">1</dd></div>
+          <div><dt>Âme</dt><dd class="hide">5</dd></div>
+          <div><dt>Personnalité</dt><dd class="hide">5</dd></div>
+          <div><dt>Ascendant</dt><dd class="hide">Gém.</dd></div>
+          <div><dt>Lune</dt><dd class="hide">Gém.</dd></div>
+          <div><dt>Année 2026</dt><dd class="hide">8</dd></div>
+        </dl>
+        <div class="unlock">
+          <a class="btn btn-brass" href="#tarifs">Recevoir l'étude complète</a>
+          <p>Expression, âme, cycles de vie, thème astral complet et synthèse personnalisée.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="etude" class="alt">
+    <div class="wrap contents">
+      <div class="intro">
+        <p class="eyebrow">Ce que contient l'étude</p>
+        <h2 style="margin-top:10px">Une dizaine de pages, rédigées pour une seule personne</h2>
+        <p>Chaque étude est calculée à partir de votre date de naissance, puis relue et rédigée. Les positions des planètes viennent d'un calcul astronomique pour votre ville et votre heure, pas d'un horoscope général.</p>
+      </div>
+      <ol class="toc">
+        <li><span class="pg">1</span><div><b>Profil numérologique</b><span>Chemin de vie, expression, âme, personnalité, nombres maîtres et leçons karmiques, avec le détail des calculs.</span></div></li>
+        <li><span class="pg">2</span><div><b>Cycles et réalisations</b><span>Les grandes périodes de la vie, leurs défis, et votre année personnelle en cours.</span></div></li>
+        <li><span class="pg">3</span><div><b>Thème natal</b><span>Soleil, Lune, ascendant, planètes et maisons calculés pour le lieu et l'heure exacts.</span></div></li>
+        <li><span class="pg">4</span><div><b>Lecture et synthèse</b><span>Ce que les deux approches disent ensemble, en langage clair.</span></div></li>
+        <li><span class="pg">5</span><div><b>Pistes concrètes</b><span>Pour un enfant : activités, manière d'apprendre, orientations possibles. Pour un adulte : forces et points de vigilance.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="tarifs">
+    <div class="wrap">
+      <p class="eyebrow">Tarifs</p>
+      <h2 style="margin-top:10px">Choisissez votre étude</h2>
+      <p class="tarif-fete" id="tarifFete" hidden><svg aria-hidden="true"><use href="#i-tree"/></svg><span id="tarifFeteTxt"></span></p>
+      <div class="offers" id="offers">
+        <article class="offer" data-id="prevision2027" data-price="2060" aria-pressed="false">
+          <h3>Prévision 2027</h3>
+          <div><p class="price">2 060<small>FCFA</small></p><p class="fee">Frais Airtel Money inclus</p></div>
+          <ul><li>Votre année 2027 mois par mois</li><li>Tendances et temps forts</li><li>Points de vigilance</li><li>Calculée à partir de votre date de naissance</li></ul>
+          <button class="btn btn-ghost" type="button">Choisir</button>
+        </article>
+        <article class="offer" data-id="decouverte" data-price="4120" aria-pressed="false">
+          <h3>Découverte</h3>
+          <div><p class="price">4 120<small>FCFA</small></p><p class="fee">Frais Airtel Money inclus</p></div>
+          <ul><li>1 chemin de vie</li><li>Profil numérologique complet</li><li>Cycles, réalisations et défis</li><li>La porte d'entrée idéale</li></ul>
+          <button class="btn btn-ghost" type="button">Choisir</button>
+        </article>
+        <article class="offer feat" data-id="essentiel" data-price="7210" aria-pressed="true">
+          <span class="tag">La plus demandée</span>
+          <h3>Essentiel</h3>
+          <div><p class="price">7 210<small>FCFA</small></p><p class="fee">Frais Airtel Money inclus</p></div>
+          <ul><li>Chemin de vie complet, avec thème astral</li><li>Prévision 2027, mois par mois</li><li>Synthèse et pistes concrètes</li><li>Bonus : votre chemin de vie croisé avec votre année 2027</li></ul>
+          <button class="btn btn-ghost" type="button">Choisir</button>
+        </article>
+        <article class="offer" data-id="compatibilite" data-price="12360" aria-pressed="false">
+          <h3>Compatibilité amoureuse</h3>
+          <div><p class="price">12 360<small>FCFA</small></p><p class="fee">Frais Airtel Money inclus · pour 2 personnes</p></div>
+          <ul><li>2 chemins de vie</li><li>Compatibilité amoureuse</li><li>Forces du couple et points de friction</li><li>Le cadeau idéal à deux</li></ul>
+          <button class="btn btn-ghost" type="button">Choisir</button>
+        </article>
+        <article class="offer" data-id="famille" data-price="20600" aria-pressed="false">
+          <h3>Famille</h3>
+          <div><p class="price">20 600<small>FCFA</small></p><p class="fee">Frais Airtel Money inclus · 6 personnes, puis 2 060 par personne en plus</p></div>
+          <ul><li>6 personnes incluses, jusqu'à 16</li><li>Liens entre les profils (parents, enfants, fratrie)</li><li>Pistes d'accompagnement des enfants</li><li>Un seul document relié</li></ul>
+          <button class="btn btn-ghost" type="button">Choisir</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="commande" class="alt">
+    <div class="wrap">
+      <p class="eyebrow">Commande</p>
+      <h2 style="margin-top:10px">Payer et envoyer votre commande</h2>
+      <div class="panel others" id="others" hidden>
+        <h3 id="othersTitle">Les autres personnes</h3>
+        <p class="lead" id="othersLead"></p>
+        <div id="meRoleBox" style="margin-top:14px;max-width:320px" hidden>
+          <label for="fMeRole">Vous (formulaire du haut) êtes</label>
+          <select id="fMeRole"></select>
+        </div>
+        <div id="partnerBox"></div>
+        <div id="familyBox" hidden>
+          <h4>Les adultes qui élèvent les enfants</h4>
+          <div id="adults"></div>
+          <button class="btn btn-ghost" type="button" id="addAdult">+ Ajouter un adulte</button><span class="count" id="adultCount"></span>
+          <h4>Les enfants</h4>
+          <div id="kids"></div>
+          <button class="btn btn-ghost" type="button" id="addKid">+ Ajouter un enfant</button><span class="count" id="kidCount"></span>
+        </div>
+      </div>
+      <div class="order">
+        <div class="panel summary">
+          <h3>Récapitulatif</h3>
+          <dl>
+            <dt>Étude</dt><dd id="sOffer">Essentiel</dd>
+            <dt>Pour</dt><dd id="sName">À renseigner dans le formulaire</dd>
+            <dt>Naissance</dt><dd id="sBirth">—</dd>
+            <dt>Lieu</dt><dd id="sPlace">—</dd>
+            <dt id="sCountLabel" hidden>Personnes</dt><dd id="sCount" hidden>—</dd>
+          </dl>
+          <div class="total"><span>Total, frais Airtel Money inclus</span><b id="sTotal">7 210 FCFA</b></div>
+          <p class="note" id="sNote">Pour les packs Compatibilité amoureuse et Famille, les autres personnes se renseignent dans le cadre « Les autres personnes », juste au-dessus.</p>
+        </div>
+
+        <div class="panel">
+          <h3>Paiement</h3>
+          <div class="pay" role="radiogroup" aria-label="Moyen de paiement">
+            <label class="payopt"><input type="radio" name="pay" value="Airtel Money" checked> Airtel Money</label>
+          </div>
+          <ol class="steps">
+            <li>Payez <span class="mono" id="pAmount">7 210 FCFA</span> <span id="pHolder"></span> <span class="mono" id="pNumber"></span>.</li>
+            <li>Lors de votre paiement Airtel Money, saisissez comme référence de transaction <b>« DV + votre nom et prénom »</b> (ex. DV Jean Pierre Koumba).</li>
+            <li>Recopiez cette référence ci-dessous, puis envoyez votre commande sur WhatsApp.</li>
+            <li>Nous vérifions votre paiement, puis nous vous envoyons votre étude.</li>
+          </ol>
+          <div style="margin-top:14px">
+            <label for="fRef">Référence de transaction</label>
+            <input id="fRef" placeholder="Ex. DV Jean Pierre Koumba">
+          </div>
+          <div style="margin-top:12px">
+            <label for="fContact">Email ou WhatsApp pour recevoir le PDF</label>
+            <input id="fContact" placeholder="Ex. +241 07 00 00 00">
+          </div>
+          <p class="warn" id="orderMsg" hidden></p>
+          <div class="actions">
+            <a class="btn btn-brass" id="waBtn" href="#" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>
+            <button class="btn btn-ghost" type="button" id="copyBtn">Copier la commande</button>
+          </div>
+          <p class="note">Après vérification de votre paiement, votre étude vous est envoyée dans les meilleurs délais, sous 24 heures maximum.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="aetheria" class="alt">
+    <div class="wrap further">
+      <div>
+        <p class="eyebrow">Pour aller plus loin</p>
+        <h2 style="margin-top:10px">Votre étude dit qui vous êtes. Aetheria vous aide à le travailler.</h2>
+        <p class="lede2">Aetheria est une application d'entraînement intérieur, en français. Elle transforme la lecture de votre profil en pratique quotidienne, quelques minutes par jour. Gratuite pour commencer, et tout reste sur votre téléphone.</p>
+        <div class="actions"><a class="btn btn-brass" id="aeBtn" href="#" target="_blank" rel="noopener">Découvrir Aetheria</a></div>
+      </div>
+      <ul>
+        <li><b>Un parcours de 30 jours</b><span>Relaxation, concentration, introspection : les fondations, pas à pas.</span></li>
+        <li><b>Les rituels du quotidien</b><span>Matin et soir, avec le thème de chaque jour de la semaine.</span></li>
+        <li><b>Le journal des rêves</b><span>Chaque rêve lu selon trois hypothèses, chiffré sur l'appareil.</span></li>
+        <li><b>L'Empreinte du soir</b><span>Une consigne claire donnée à votre esprit avant le sommeil, et un bilan au réveil.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="questions">
+    <div class="wrap">
+      <p class="eyebrow">Questions</p>
+      <h2 style="margin-top:10px">Avant de commander</h2>
+      <div class="faq">
+        <details><summary>Que faut-il pour une étude fiable ?</summary><p>Vos noms complets, votre date, votre heure et votre lieu de naissance. L'heure compte pour l'ascendant, qui peut changer de signe en une vingtaine de minutes. Sans heure, nous livrons la partie numérologique et un thème simplifié.</p></details>
+        <details><summary>En combien de temps la reçoit-on ?</summary><p>Après vérification de votre paiement, votre étude vous est envoyée en PDF, par WhatsApp ou par email, dans les meilleurs délais et sous 24 heures maximum.</p></details>
+        <details><summary>Peut-on faire l'étude d'un enfant ?</summary><p>Oui, à la demande d'un parent. L'étude d'un enfant ne prédit pas son avenir ; elle propose des pistes pour l'accompagner : activités, manière d'apprendre, points d'attention.</p></details>
+        <details><summary>Que deviennent mes informations ?</summary><p>Elles servent uniquement à rédiger votre étude. Elles ne sont ni revendues ni publiées, et vous pouvez demander leur suppression après livraison.</p></details>
+        <details><summary>Quelle valeur accorder à ces lectures ?</summary><p>La numérologie et l'astrologie n'ont pas de fondement scientifique. Nos études sont des lectures symboliques, à prendre comme un support de réflexion personnelle, pas comme un avis médical, financier ou d'orientation.</p></details>
+        <details><summary>Et si un élément est faux ?</summary><p>Une erreur de nom, de date ou d'heure de notre fait est corrigée gratuitement. Si vous retrouvez une heure plus précise après coup, la mise à jour du thème est offerte dans les 30 jours.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Destin &amp; Vie · Libreville, Gabon</span><span>Lectures symboliques à visée de réflexion personnelle · <a href="#aetheria">Pour aller plus loin : Aetheria</a></span></div></footer>
+<!-- Formulaire détecté par Netlify Forms : chaque commande est enregistrée et notifiée par email -->
+<form name="commande" data-netlify="true" netlify-honeypot="site_web" hidden>
+  <input name="site_web"><input name="etude"><input name="montant"><input name="pour"><input name="noms"><input name="prenoms"><input name="nom"><input name="sexe"><input name="personnes"><input name="naissance"><input name="heure"><input name="lieu"><input name="reference"><input name="contact"><textarea name="message"></textarea>
+</form>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ===== Configuration à compléter ===== */
+const CONFIG = {
+  aetheria: "",                     // lien de téléchargement d'Aetheria (Play Store ou page de l'APK) ; vide = « Bientôt disponible »
+  whatsapp: "24177069317",          // numéro WhatsApp de réception des commandes, sans + ni espaces
+  pay: {
+    "Airtel Money": { number: "KAMD", holder: "au code marchand" }
+  },
+  // Remise et décorations de saison : actives du jour "debut" au jour "fin" inclus. taux 0 = pas de remise.
+  promo: { nom: "Offre des fêtes", taux: 0.20, debut: "2026-11-04", fin: "2027-01-06" }
+};
+
+/* ===== Remise de saison ===== */
+const PROMO = (()=>{const p=CONFIG.promo; if(!p||!p.taux) return null;
+  const t=new Date(), d=new Date(p.debut+"T00:00:00"), f=new Date(p.fin+"T23:59:59");
+  return (t>=d&&t<=f)?p:null;})();
+const finalPrice = base => PROMO ? Math.round(base*(1-PROMO.taux)/10)*10 : base;
+
+/* ===== Numérologie (système pythagoricien) ===== */
+const strip = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().replace(/[^A-Z ]/g," ");
+const val = c => ((c.charCodeAt(0)-65)%9)+1;
+const red = (n,keep=true) => { while(n>9 && !(keep && (n===11||n===22||n===33))) n=String(n).split("").reduce((a,b)=>a+ +b,0); return n; };
+const VOW = "AEIOUY";
+function numerology(name, iso){
+  const letters = strip(name).replace(/ /g,"");
+  let E=0,A=0; for(const c of letters){ const v=val(c); E+=v; if(VOW.includes(c)) A+=v; }
+  const [y,m,d] = iso.split("-").map(Number);
+  const digits = String(d).padStart(2,"0")+String(m).padStart(2,"0")+y;
+  const sum = digits.split("").reduce((a,b)=>a+ +b,0);
+  const rd=red(d,false), rm=red(m,false);
+  const yr=new Date().getFullYear();
+  const py=red(rd+rm+red(String(yr).split("").reduce((a,b)=>a+ +b,0),false),false);
+  return { cv:red(sum), cvSum:sum, digits, expr:red(E), ame:red(A), perso:red(E-A), py };
+}
+const CV = {
+  1:["Le pionnier","Volonté, initiative, besoin d'ouvrir sa propre voie. Le 1 aime décider et avancer seul ; son défi est d'accepter l'aide des autres."],
+  2:["Le médiateur","Sensibilité, écoute, sens de l'harmonie. Le 2 rapproche les gens ; son défi est de garder confiance en lui face au jugement."],
+  3:["Le communicant","Imagination, besoin de s'exprimer, goût du jeu et du lien. Le 3 avance par la parole et la création ; son défi est de finir ce qu'il commence."],
+  4:["Le bâtisseur","Méthode, constance, sens du concret. Le 4 construit sur la durée ; son défi est d'accepter l'imprévu."],
+  5:["L'explorateur","Curiosité, mouvement, soif d'expériences. Le 5 a besoin de liberté ; son défi est de s'engager dans la durée."],
+  6:["Le protecteur","Responsabilité, attention aux proches, besoin d'harmonie au foyer. Le 6 prend soin ; son défi est de ne pas s'oublier."],
+  7:["Le chercheur","Réflexion, intuition, goût de la connaissance. Le 7 a besoin de comprendre en profondeur ; son défi est de ne pas s'isoler."],
+  8:["Le stratège","Ambition, sens de l'organisation et de la réussite matérielle. Le 8 aime diriger ; son défi est l'équilibre entre pouvoir et générosité."],
+  9:["L'humaniste","Générosité, ouverture au monde, idéal. Le 9 donne beaucoup ; son défi est de savoir tourner la page."],
+  11:["L'inspiré","Nombre maître. Intuition vive, capacité à inspirer et à guider, avec une sensibilité nerveuse à canaliser."],
+  22:["Le grand bâtisseur","Nombre maître. Capacité à donner une forme concrète à de grands projets, avec une forte exigence envers soi."],
+  33:["Le guide","Nombre maître. Dévouement, sens du service et de la transmission, parfois au prix de l'oubli de soi."]
+};
+const SIGNS=[["Capricorne",1,19],["Verseau",2,18],["Poissons",3,20],["Bélier",4,19],["Taureau",5,20],["Gémeaux",6,20],["Cancer",7,22],["Lion",8,22],["Vierge",9,22],["Balance",10,22],["Scorpion",11,21],["Sagittaire",12,21],["Capricorne",12,31]];
+const ORDER=["Bélier","Taureau","Gémeaux","Cancer","Lion","Vierge","Balance","Scorpion","Sagittaire","Capricorne","Verseau","Poissons"];
+function sunSign(m,d){ // approximatif aux jours de changement de signe ; l'étude fait le calcul exact
+  for(let i=0;i<SIGNS.length;i++){ const [s,mm,dd]=SIGNS[i]; if(m<mm||(m===mm&&d<=dd)) return s; } return "Capricorne";
+}
+
+/* ===== Roue zodiacale ===== */
+const cv=document.getElementById("wheel"), ctx=cv.getContext("2d");
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function drawWheel(active){
+  const W=600,c=300; ctx.clearRect(0,0,W,W);
+  const brass=css("--brass"), line=css("--line"), fg=css("--fg"), soft=css("--brass-soft");
+  ctx.lineWidth=2; ctx.strokeStyle=line;
+  [286,230,170].forEach(r=>{ctx.beginPath();ctx.arc(c,c,r,0,Math.PI*2);ctx.stroke();});
+  ORDER.forEach((s,i)=>{
+    const a0=Math.PI-(i*30)*Math.PI/180, a1=a0-Math.PI/6;
+    if(s===active){ctx.beginPath();ctx.moveTo(c,c);ctx.arc(c,c,286,a1,a0);ctx.closePath();ctx.fillStyle=soft;ctx.fill();
+      ctx.beginPath();ctx.arc(c,c,230,0,Math.PI*2);ctx.fillStyle=css("--bg");ctx.fill();}
+    ctx.strokeStyle=line;ctx.beginPath();ctx.moveTo(c+230*Math.cos(a0),c-230*Math.sin(a0));ctx.lineTo(c+286*Math.cos(a0),c-286*Math.sin(a0));ctx.stroke();
+    const am=(a0+a1)/2; ctx.save();ctx.translate(c+258*Math.cos(am),c-258*Math.sin(am));ctx.rotate(-am+Math.PI/2);
+    ctx.fillStyle=s===active?brass:fg; ctx.globalAlpha=s===active?1:.7;
+    ctx.font=(s===active?"600 ":"")+"19px Commissioner, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillText(s.slice(0,4).toUpperCase(),0,0);ctx.restore();ctx.globalAlpha=1;
+  });
+  ctx.strokeStyle=brass;ctx.lineWidth=1.4;
+  for(let k=0;k<72;k++){const a=k*5*Math.PI/180,r1=k%6===0?214:222;ctx.beginPath();ctx.moveTo(c+r1*Math.cos(a),c+r1*Math.sin(a));ctx.lineTo(c+230*Math.cos(a),c+230*Math.sin(a));ctx.stroke();}
+}
+let currentSign="Verseau";
+drawWheel(currentSign);
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawWheel(currentSign));
+new MutationObserver(()=>drawWheel(currentSign)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+/* ===== Aperçu ===== */
+const $=id=>document.getElementById(id);
+let state={name:"",date:"",time:"",place:"",pour:"Moi-même",offer:"essentiel",base:7210,price:finalPrice(7210),offerName:"Essentiel"};
+const fmtF=n=>n.toLocaleString("fr-FR").replace(/ | /g," ")+" FCFA";
+const fmtDate=iso=>{const [y,m,d]=iso.split("-");return `${d}/${m}/${y}`;};
+
+$("calcForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const prenoms=$("fPrenoms").value.trim(), nom=$("fNom").value.trim(), name=(prenoms+" "+nom).trim(), date=$("fDate").value;
+  if(!name||strip(name).replace(/ /g,"").length<2||!date){ toast("Indiquez au moins les prénoms, le nom et la date de naissance."); (name?$("fDate"):$("fPrenoms")).focus(); return; }
+  Object.assign(state,{name,prenoms,nom,sexe:$("fSexe").value,date,time:$("fHeure").value,place:$("fLieu").value.trim(),pour:$("fPour").value});
+  const n=numerology(name,date), [y,m,d]=date.split("-").map(Number);
+  currentSign=sunSign(m,d); drawWheel(currentSign);
+  $("cvNum").textContent=n.cv;
+  $("resEyebrow").textContent="Votre aperçu";
+  $("resTitle").textContent=`Chemin de vie ${n.cv} · ${CV[n.cv][0]}`;
+  $("resName").textContent=`${name} · né(e) le ${fmtDate(date)}${state.place?" à "+state.place:""}`;
+  $("resText").textContent=CV[n.cv][1];
+  $("chips").innerHTML="";
+  [`Soleil en ${currentSign}`,`Calcul : ${n.digits.split("").join("+")} = ${n.cvSum} → ${n.cv}`].forEach(t=>{const s=document.createElement("span");s.className="chip";s.textContent=t;$("chips").append(s);});
+  const dds=$("locked").querySelectorAll("dd");
+  ["?","?","?",state.time?"?":"heure ?","?","?"].forEach((v,i)=>{dds[i].textContent=v;});
+  $("locked").querySelectorAll("dt")[5].textContent="Année "+new Date().getFullYear();
+  updateSummary();
+  $("apercu").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+});
+
+/* ===== Personnes supplémentaires ===== */
+const ROLES_ADULTES=["Père","Mère","Oncle","Tante","Grand-père","Grand-mère","Grand frère","Grande sœur","Tuteur","Tutrice"];
+const ROLES_ENFANTS=["Fils","Fille","Neveu","Nièce","Petit-fils","Petite-fille","Petit frère","Petite sœur"];
+const MAX_ADULTES=6, MAX_ENFANTS=10, FAMILLE_INCLUS=6, FAMILLE_SUPPL=2060;
+const opts=(l,sel)=>l.map(r=>`<option${r===sel?" selected":""}>${r}</option>`).join("");
+function personCard(kind,i,roles){
+  const d=document.createElement("div"); d.className="person"; d.dataset.kind=kind;
+  d.innerHTML=`<div class="tag">${kind==="partner"?"Votre partenaire":kind==="adult"?"Adulte":"Enfant"}</div>
+   ${kind==="partner"?"":`<button class="del" type="button" aria-label="Retirer">×</button>`}
+   ${roles?`<div><label>Lien</label><select data-f="role">${opts(roles,roles[i%roles.length])}</select></div>`:""}
+   <div class="${roles?"":"w2"}"><label>Prénoms (tous)</label><input data-f="prenoms" placeholder="Ex. Marie Claire"></div>
+   <div><label>Nom(s) de famille</label><input data-f="nom" placeholder="Ex. Koumba"></div>
+   <div><label>Sexe</label><select data-f="sexe"><option value="F">Féminin</option><option value="M">Masculin</option></select></div>
+   <div><label>Date de naissance</label><input type="date" data-f="date"></div>
+   <div><label>Heure (si connue)</label><input type="time" data-f="heure"></div>
+   <div class="w2"><label>Lieu de naissance</label><input data-f="lieu" placeholder="Ex. Libreville, Gabon"></div>`;
+  const sx=d.querySelector('[data-f=sexe]'), rl=d.querySelector('[data-f=role]');
+  const fem=["Mère","Tante","Grand-mère","Grande sœur","Tutrice","Fille","Nièce","Petite-fille","Petite sœur"];
+  const syncSexe=()=>{ if(rl) sx.value=fem.includes(rl.value)?"F":"M"; };
+  if(rl){ rl.addEventListener("change",()=>{syncSexe();refresh();}); syncSexe(); }
+  d.querySelector(".del")?.addEventListener("click",()=>{d.remove();refresh();});
+  d.addEventListener("input",refresh);
+  return d;
+}
+function others(){
+  const sel=state.offer==="compatibilite"?"#partnerBox .person":state.offer==="famille"?"#adults .person, #kids .person":null;
+  if(!sel) return [];
+  return [...document.querySelectorAll(sel)].map(c=>{
+    const o={}; c.querySelectorAll("[data-f]").forEach(f=>o[f.dataset.f]=f.value.trim());
+    o.role=o.role||(c.dataset.kind==="partner"?"Partenaire":""); o.kind=c.dataset.kind; return o;});
+}
+function setupOthers(){
+  const box=$("others"), off=state.offer;
+  const compat=off==="compatibilite", fam=off==="famille";
+  box.hidden=!(compat||fam);
+  $("partnerBox").innerHTML=""; $("familyBox").hidden=!fam; $("meRoleBox").hidden=!fam;
+  if(compat){
+    $("othersTitle").textContent="Votre partenaire";
+    $("othersLead").textContent="Vous êtes la personne du formulaire en haut de page. Renseignez ici votre partenaire, comme sur son acte de naissance.";
+    $("partnerBox").append(personCard("partner",0,null));
+  }
+  if(fam){
+    $("othersTitle").textContent="Les membres de la famille";
+    $("othersLead").textContent="Jusqu'à 6 adultes et 10 enfants. Indiquez le lien réel de chacun : on est parfois élevé par un oncle, une tante, une grand-mère ou un grand frère.";
+    $("fMeRole").innerHTML=opts(ROLES_ADULTES,"Père");
+    if(!$("kids").children.length) $("kids").append(personCard("kid",0,ROLES_ENFANTS));
+  }
+  refresh();
+}
+function refresh(){
+  const nA=$("adults").children.length, nK=$("kids").children.length;
+  $("addAdult").disabled=nA>=MAX_ADULTES-1; $("addKid").disabled=nK>=MAX_ENFANTS;
+  $("adultCount").textContent=`${nA+1} adulte${nA?"s":""} sur ${MAX_ADULTES}, vous compris`;
+  $("kidCount").textContent=`${nK} enfant${nK>1?"s":""} sur ${MAX_ENFANTS}`;
+  if(state.offer==="famille"){
+    const n=1+nA+nK; state.count=n;
+    state.base=20600+Math.max(0,n-FAMILLE_INCLUS)*FAMILLE_SUPPL; state.price=finalPrice(state.base);
+  } else state.count=state.offer==="compatibilite"?2:1;
+  updateSummary();
+}
+$("addAdult").addEventListener("click",()=>{$("adults").append(personCard("adult",$("adults").children.length+1,ROLES_ADULTES));refresh();});
+$("addKid").addEventListener("click",()=>{$("kids").append(personCard("kid",0,ROLES_ENFANTS));refresh();});
+$("fMeRole").addEventListener("change",refresh);
+const fmtPers=o=>`${o.role} : ${o.prenoms} ${o.nom}, ${o.sexe==="M"?"M":"F"}, ${o.date?fmtDate(o.date):"—"}${o.heure?" à "+o.heure.replace(":"," h "):""}, ${o.lieu||"—"}`;
+
+/* ===== Offres ===== */
+document.querySelectorAll(".offer").forEach(o=>{
+  o.querySelector("button").addEventListener("click",()=>{
+    document.querySelectorAll(".offer").forEach(x=>x.setAttribute("aria-pressed","false"));
+    o.setAttribute("aria-pressed","true");
+    Object.assign(state,{offer:o.dataset.id,base:+o.dataset.price,price:finalPrice(+o.dataset.price),offerName:o.querySelector("h3").textContent});
+    setupOthers(); $("commande").scrollIntoView({behavior:"smooth"});
+  });
+});
+document.querySelectorAll('input[name="pay"]').forEach(r=>r.addEventListener("change",updateSummary));
+["fRef","fContact"].forEach(id=>$(id).addEventListener("input",updateSummary));
+
+function payMethod(){return document.querySelector('input[name="pay"]:checked').value;}
+function orderText(){
+  return [
+    "Bonjour, je souhaite commander une étude Destin & Vie.",
+    `Étude : ${state.offerName} (${fmtF(state.price)}${PROMO?`, ${PROMO.nom} −${Math.round(PROMO.taux*100)} % appliquée`:""})`,
+    `Pour : ${state.pour}`,
+    `Prénoms : ${state.prenoms||"—"}`,
+    `Nom : ${state.nom||"—"}`,
+    `Sexe : ${state.sexe==="M"?"masculin":"féminin"}`,
+    `Naissance : ${state.date?fmtDate(state.date):"—"}${state.time?" à "+state.time.replace(":"," h "):""}`,
+    `Lieu : ${state.place||"—"}`,
+    ...(state.offer==="famille"?[`Votre lien : ${$("fMeRole").value}`]:[]),
+    ...(["compatibilite","famille"].includes(state.offer)?others().map(fmtPers):[]),
+    `Paiement : ${payMethod()}, référence ${$("fRef").value.trim()||"—"}`,
+    `Livraison du PDF : ${$("fContact").value.trim()||"ce numéro WhatsApp"}`
+  ].join("\n");
+}
+function updateSummary(){
+  $("sOffer").textContent=state.offerName;
+  $("sName").textContent=state.name||"À renseigner dans le formulaire";
+  $("sBirth").textContent=state.date?fmtDate(state.date)+(state.time?" à "+state.time.replace(":"," h "):""):"—";
+  $("sPlace").textContent=state.place||"—";
+  const multi=["compatibilite","famille"].includes(state.offer);
+  $("sCountLabel").hidden=$("sCount").hidden=!multi; $("sCount").textContent=multi?`${state.count||1} personne${(state.count||1)>1?"s":""}`:"";
+  $("sTotal").innerHTML=(PROMO?`<s>${fmtF(state.base)}</s>`:"")+fmtF(state.price);
+  $("pAmount").textContent=fmtF(state.price);
+  const p=CONFIG.pay[payMethod()]; $("pNumber").textContent=p.number; $("pHolder").textContent=p.holder;
+  $("waBtn").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText())}`;
+}
+function missing(){
+  if(!state.name||!state.date) return "Remplissez d'abord le formulaire en haut de page (noms et date de naissance).";
+  if(["compatibilite","famille"].includes(state.offer)){
+    const ps=others();
+    if(state.offer==="famille"&&ps.length<1) return "Ajoutez au moins un autre membre de la famille.";
+    const bad=ps.findIndex(o=>!o.prenoms||!o.nom||!o.date||!o.lieu);
+    if(bad>=0) return `Complétez les prénoms, le nom, la date et le lieu de naissance de : ${ps[bad].role||"la personne "+(bad+1)}.`;
+  }
+  if(!$("fRef").value.trim()) return "Ajoutez la référence saisie lors de votre paiement (DV + votre nom et prénom).";
+  return "";
+}
+function saveOrder(){
+  if(location.protocol!=="https:"||!/destin-et-vie\.online|netlify\.app/.test(location.hostname)) return;
+  const d={"form-name":"commande",etude:state.offerName,montant:fmtF(state.price),pour:state.pour,noms:state.name,prenoms:state.prenoms,nom:state.nom,sexe:state.sexe,
+    naissance:state.date?fmtDate(state.date):"",heure:state.time,lieu:state.place,reference:$("fRef").value.trim(),
+    contact:$("fContact").value.trim(),message:orderText(),
+    personnes:["compatibilite","famille"].includes(state.offer)?JSON.stringify({vous:state.offer==="famille"?$("fMeRole").value:"",autres:others()}):""};
+  try{const body=new URLSearchParams(d).toString();
+    if(!(navigator.sendBeacon&&navigator.sendBeacon("/",new Blob([body],{type:"application/x-www-form-urlencoded"}))))
+      fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body,keepalive:true});}catch{}
+}
+$("waBtn").addEventListener("click",e=>{
+  const m=missing(); const box=$("orderMsg");
+  if(m){e.preventDefault(); box.textContent=m; box.hidden=false; return;}
+  box.hidden=true; saveOrder();
+});
+$("copyBtn").addEventListener("click",async()=>{
+  const m=missing(); const box=$("orderMsg");
+  if(m){box.textContent=m;box.hidden=false;return;}
+  box.hidden=true; saveOrder();
+  try{await navigator.clipboard.writeText(orderText()); toast("Commande copiée. Collez-la dans votre message.");}
+  catch{box.textContent=orderText(); box.hidden=false; toast("Sélectionnez le texte ci-dessus pour le copier.");}
+});
+function toast(t){const el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>el.hidden=true,3200);}
+
+/* ===== Décorations de saison ===== */
+(function(){
+  if(!PROMO) return;
+  const pct=Math.round(PROMO.taux*100), fin=new Date(PROMO.fin+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+  $("feteTxt").textContent=`−${pct} % sur toutes les études, jusqu'au ${fin}`; $("fete").hidden=false;
+  $("tarifFeteTxt").textContent=`${PROMO.nom} : −${pct} % appliqués automatiquement jusqu'au ${fin}`; $("tarifFete").hidden=false;
+  document.querySelectorAll(".offer").forEach(o=>{
+    const base=+o.dataset.price, pr=o.querySelector(".price");
+    pr.innerHTML=`<s>${base.toLocaleString("fr-FR").replace(/ | /g," ")}</s>${finalPrice(base).toLocaleString("fr-FR").replace(/ | /g," ")}<small>FCFA</small>`;
+    const b=document.createElement("span"); b.className="promo"; b.textContent=`−${pct} %`; o.append(b);
+  });
+  // Guirlande : fil doré et petites étoiles le long du haut du ciel
+  const g=$("garland"), W=1200, n=13; let d="M0 6", stars="";
+  for(let i=0;i<n;i++){const x0=i*W/n, x1=(i+1)*W/n, xm=(x0+x1)/2; d+=` Q${xm} 34 ${x1} 6`;
+    const c=i%3===1?"#B23A3A":(i%3===2?"#3F7A58":"#D7B46E");
+    stars+=`<use href="#i-star" x="${xm-7}" y="${16}" width="14" height="14" style="color:${c}"/>`;}
+  g.innerHTML=`<svg viewBox="0 0 ${W} 46" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#D7B46E" stroke-opacity=".55" stroke-width="1.2" vector-effect="non-scaling-stroke"/>${stars}</svg>`;
+  g.hidden=false;
+  // Neige légère (désactivée si l'utilisateur limite les animations)
+  const sn=$("snow"); let h="";
+  for(let i=0;i<18;i++){const sz=8+Math.random()*12, l=Math.random()*100, dur=9+Math.random()*10, del=-Math.random()*dur, dx=(Math.random()*60-30).toFixed(0);
+    h+=`<i class="${i%4===0?"g":""}" style="left:${l}%;width:${sz}px;height:${sz}px;animation-duration:${dur}s;animation-delay:${del}s;--dx:${dx}px"><svg><use href="#i-snow"/></svg></i>`;}
+  sn.innerHTML=h; sn.hidden=false;
+})();
+updateSummary();
+(function(){const b=$("aeBtn");if(CONFIG.aetheria){b.href=CONFIG.aetheria;}else{b.textContent="Bientôt disponible sur Android";b.removeAttribute("href");b.setAttribute("aria-disabled","true");}})();
+</script>
+
+</body>
+</html>
