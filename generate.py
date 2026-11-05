@@ -52,8 +52,11 @@ def main(argv=None):
     except (TypeError, ValueError, KeyError) as e:
         sys.exit(f"Données incomplètes : {e}")
     need = MULTI.get(a.produit, 1)
-    if len(people) != need:
-        sys.exit(f"Le produit {a.produit} demande {need} personne(s) ; la commande en contient {len(people)}.")
+    lo, hi = need if isinstance(need, tuple) else (need, need)
+    if not lo <= len(people) <= hi:
+        sys.exit(f"Le produit {a.produit} demande {lo if lo == hi else f'{lo} à {hi}'} personne(s) ; "
+                 f"la commande en contient {len(people)}.")
+    roles = [x.get("role", "") for x in d.get("personnes", [])]
     for p in people:
         try:
             pl = p.place()
@@ -64,12 +67,15 @@ def main(argv=None):
     today = date.fromisoformat(a.aujourdhui) if a.aujourdhui else None
     ref = a.ref or d.get("ref")
     try:
-        PRODUCTS[a.produit](*people, a.sortie, today=today, order_ref=ref)
+        extra = {"roles": roles} if a.produit == "famille" else {}
+        PRODUCTS[a.produit](*people, a.sortie, today=today, order_ref=ref, **extra)
     except (LookupError, ValueError) as e:
         sys.exit(str(e))
     print(f"Étude générée : {a.sortie}")
 
-    if a.video:
+    if a.video and a.produit == "famille":
+        print("Pas de capsule vidéo pour le pack Famille.")
+    elif a.video:
         sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "capsule"))
         import capsule
         import slide

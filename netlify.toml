@@ -1,0 +1,7 @@
+# Site Destin & Vie : publié depuis le dossier site/, fonctions dans netlify/functions/
+[build]
+  publish = "site"
+  functions = "netlify/functions"
+  command = "echo 'Site statique, rien à construire'"
+  # Ne pas reconstruire le site quand seul le moteur ou l'état des commandes change
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- site/ netlify/ netlify.toml"
